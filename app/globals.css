@@ -1,26 +1,298 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-dark: #0d0d0d;
+  --text-correct: #ffffff;
+  --text-incorrect: #ff4b4b;
+  --text-not-yet: rgba(255, 255, 255, 0.3);
+  --cursor-color: #ff4b4b;
+  --accent: #ff4b4b;
+  --border-subtle: rgba(255, 255, 255, 0.1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-correct);
+  font-family: "Pretendard", "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 메인 컨테이너 */
+.main-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  cursor: text;
+}
+
+/* 상단 헤더 */
+.header {
+  padding: 1rem 2rem;
+  position: relative;
+}
+
+.header-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+.header-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+}
+
+.header-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  text-transform: uppercase;
+}
+
+.header-btn:hover {
+  color: var(--text-correct);
+}
+
+/* 진행 바 */
+.progress-bar {
+  height: 2px;
+  background: var(--border-subtle);
+  margin: 0 2rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.1s ease;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 2rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.05em;
+}
+
+/* 메인 콘텐츠 영역 */
+.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* 타이핑 컨테이너 - overlay 구조 */
+.typing-container {
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+/* 텍스트 레이어 공통 스타일 */
+.text-layer {
+  font-family: "Pretendard", "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Original Layer - 기본층 */
+.original-layer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Typed Layer - absolute 오버레이 */
+.typed-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 글자 스타일 */
+.char {
+  position: relative;
+  display: inline;
+  transition: color 0.05s ease;
+}
+
+/* 상태별 색상 */
+.char.correct {
+  color: var(--text-correct);
+}
+
+.char.incorrect {
+  color: var(--text-incorrect);
+}
+
+.char.not-yet {
+  color: var(--text-not-yet);
+}
+
+.char.transparent {
+  color: transparent;
+}
+
+.char.incorrect-overlay {
+  color: var(--text-incorrect);
+}
+
+/* 커서 스타일 */
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.3em;
+  background: var(--cursor-color);
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* 숨겨진 입력창 */
+.hidden-input {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+/* 완료 모달 */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fade-in 0.3s ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: #1a1a1a;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 3rem 4rem;
+  text-align: center;
+  animation: slide-up 0.3s ease;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-content h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.modal-content p {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2rem;
+}
+
+.restart-btn {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.restart-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* 하단 푸터 */
+.footer {
+  padding: 2rem;
+  text-align: center;
+}
+
+.hint {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.05em;
+  animation: hint-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes hint-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .text-layer {
+    font-size: 1.25rem;
+    line-height: 2;
+  }
+
+  .header-buttons {
+    gap: 1rem;
+  }
+
+  .header-btn {
+    font-size: 0.65rem;
+  }
+
+  .modal-content {
+    padding: 2rem;
+    margin: 1rem;
+  }
 }
