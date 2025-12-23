@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Data } from "./database";
 import Hangul from "hangul-js";
 
 // 1. 자모 단위 비교 (입력 중인 것도 맞음 처리)
 const isCharCorrect = (typed: string, target: string): boolean => {
+  if (!target) return false; // target이 없으면 틀림
   if (typed === target) return true;
 
   const typedJamo = Hangul.disassemble(typed);
@@ -27,6 +28,7 @@ const isCorrectWithNextChar = (
   target: string,
   nextTarget: string
 ): boolean => {
+  if (!target) return false; // target이 없으면 틀림
   if (isCharCorrect(typed, target)) return true;
   if (!nextTarget) return false;
 
@@ -68,16 +70,30 @@ const checkChar = (
 
 export default function Home() {
   const [typedText, setTypedText] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
   const originalText = Data[0].history;
+
+  // 타이핑 완료 체크
+  useEffect(() => {
+    if (typedText === originalText) {
+      setModalOpen(true);
+    }
+  }, [typedText, originalText]);
+
+  // 재시작
+  const handleRestart = () => {
+    setTypedText("");
+    setModalOpen(false);
+  };
 
   return (
     <div className="w-[800px] h-[1280px] mx-auto flex items-center justify-center">
-      <div className="relative">
+      <div className="relative w-[600px]">
         {/* 원본 텍스트 (아래 레이어) */}
         <p className="text-gray-500 text-2xl">{originalText}</p>
 
         {/* 입력된 텍스트 */}
-        <p className="absolute top-0 left-0 text-2xl">
+        <p className="absolute top-0 left-0 w-full text-2xl">
           {typedText.split("").map((char, index) => (
             <span
               key={index}
@@ -98,9 +114,25 @@ export default function Home() {
           value={typedText}
           onChange={(e) => setTypedText(e.target.value)}
           autoFocus
+          disabled={modalOpen}
           className="absolute top-0 left-0 w-full opacity-0"
         />
       </div>
+
+      {/* 완료 모달 */}
+      {modalOpen && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+          <div className="bg-gray-800 p-8 rounded-lg text-center">
+            <h2 className="text-2xl">완료</h2>
+            <button
+              onClick={handleRestart}
+              className="bg-white text-black px-6 py-2 rounded"
+            >
+              다시 시작
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
