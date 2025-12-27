@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Data } from "./database";
 import Hangul from "hangul-js";
+import HamburgerMenu from "./components/HamburgerMenu";
 
 // 1. 자모 단위 비교 (입력 중인 것도 맞음 처리)
 const isCharCorrect = (typed: string, target: string): boolean => {
@@ -71,7 +72,8 @@ const checkChar = (
 export default function Home() {
   const [typedText, setTypedText] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const originalText = Data[0].history;
+  const [selectedDataIndex, setSelectedDataIndex] = useState(0);
+  const originalText = Data[selectedDataIndex].history;
 
   // 타이핑 완료 체크
   useEffect(() => {
@@ -86,53 +88,63 @@ export default function Home() {
     setModalOpen(false);
   };
 
+  // 데이터 선택
+  const handleSelectData = (index: number) => {
+    setSelectedDataIndex(index);
+    setTypedText("");
+    setModalOpen(false);
+  };
+
   return (
-    <div className="w-[800px] h-[1280px] mx-auto flex items-center justify-center">
-      <div className="relative w-[600px]">
-        {/* 원본 텍스트 (아래 레이어) */}
-        <p className="text-gray-500 text-2xl">{originalText}</p>
+    <>
+      <HamburgerMenu onSelectData={handleSelectData} />
+      <div className="w-[800px] h-[1280px] mx-auto flex items-center justify-center">
+        <div className="relative w-[600px]">
+          {/* 원본 텍스트 (아래 레이어) */}
+          <p className="text-gray-500 text-2xl">{originalText}</p>
 
-        {/* 입력된 텍스트 */}
-        <p className="absolute top-0 left-0 w-full text-2xl">
-          {typedText.split("").map((char, index) => (
-            <span
-              key={index}
-              className={
-                checkChar(typedText, originalText, index)
-                  ? "text-white"
-                  : "text-red-500"
-              }
-            >
-              {char}
-            </span>
-          ))}
-        </p>
+          {/* 입력된 텍스트 */}
+          <p className="absolute top-0 left-0 w-full text-2xl">
+            {typedText.split("").map((char, index) => (
+              <span
+                key={index}
+                className={
+                  checkChar(typedText, originalText, index)
+                    ? "text-white"
+                    : "text-red-500"
+                }
+              >
+                {char}
+              </span>
+            ))}
+          </p>
 
-        {/* 숨겨진 입력창 */}
-        <input
-          type="text"
-          value={typedText}
-          onChange={(e) => setTypedText(e.target.value)}
-          autoFocus
-          disabled={modalOpen}
-          className="absolute top-0 left-0 w-full opacity-0"
-        />
-      </div>
-
-      {/* 완료 모달 */}
-      {modalOpen && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-          <div className="bg-gray-800 p-8 rounded-lg text-center">
-            <h2 className="text-2xl">완료</h2>
-            <button
-              onClick={handleRestart}
-              className="bg-white text-black px-6 py-2 rounded"
-            >
-              다시 시작
-            </button>
-          </div>
+          {/* 숨겨진 입력창 */}
+          <input
+            type="text"
+            value={typedText}
+            onChange={(e) => setTypedText(e.target.value)}
+            autoFocus
+            disabled={modalOpen}
+            className="absolute top-0 left-0 w-full opacity-0"
+          />
         </div>
-      )}
-    </div>
+
+        {/* 완료 모달 */}
+        {modalOpen && (
+          <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+            <div className="bg-gray-800 p-8 rounded-lg text-center">
+              <h2 className="text-2xl">완료</h2>
+              <button
+                onClick={handleRestart}
+                className="bg-white text-black px-6 py-2 rounded"
+              >
+                다시 시작
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
