@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Data } from "./database";
 import Hangul from "hangul-js";
 import HamburgerMenu from "./components/HamburgerMenu";
+import { inter, unifraktur } from "./fonts";
 
 // 1. 자모 단위 비교 (입력 중인 것도 맞음 처리)
 const isCharCorrect = (typed: string, target: string): boolean => {
@@ -91,6 +92,12 @@ export default function Home() {
   const [cpm, setCpm] = useState(0);
   const [accuracy, setAccuracy] = useState(0);
   const originalText = Data[selectedDataIndex].history;
+  const fontKey = Data[selectedDataIndex].fontKey;
+  const fontClassMap: Record<string, string> = {
+    inter: inter.className,
+    unifraktur: unifraktur.className,
+  };
+  const currentFontClass = fontKey ? fontClassMap[fontKey] : undefined;
   const progress = Math.min(
     (typedText.length / originalText.length) * 100,
     100
@@ -152,10 +159,16 @@ export default function Home() {
 
         <div className="relative w-[600px]">
           {/* 원본 텍스트 (아래 레이어) */}
-          <p className="text-gray-500 text-2xl">{originalText}</p>
+          <p
+            className={`text-gray-500 text-2xl ${currentFontClass ?? ""}`}
+          >
+            {originalText}
+          </p>
 
           {/* 입력된 텍스트 */}
-          <p className="absolute top-0 left-0 w-full text-2xl">
+          <p
+            className={`absolute top-0 left-0 w-full text-2xl ${currentFontClass ?? ""}`}
+          >
             {typedText.split("").map((char, index) => (
               // 글자별로 정오 판정 후 색상/애니메이션 적용
               <span
