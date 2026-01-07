@@ -12,6 +12,7 @@ export const useTyping = (originalText: string) => {
   const [cpm, setCpm] = useState(0);
   const [accuracy, setAccuracy] = useState(0);
   const [complete, setComplete] = useState(false);
+  const [durationMs, setDurationMs] = useState(0);
 
   const progress = calcProgress(typedText.length, originalText.length);
 
@@ -21,6 +22,7 @@ export const useTyping = (originalText: string) => {
     setCpm(0);
     setAccuracy(0);
     setComplete(false);
+    setDurationMs(0);
   };
 
   const handleInputChange = (value: string) => {
@@ -38,6 +40,9 @@ export const useTyping = (originalText: string) => {
       const endTime = Date.now();
       setCpm(calcCpm(startTime, endTime, originalText.length));
       setAccuracy(calcAccuracy(typedText, originalText));
+      if (startTime) {
+        setDurationMs(endTime - startTime);
+      }
       setComplete(true);
     }
   }, [typedText, originalText, startTime, complete]);
@@ -53,6 +58,7 @@ export const useTyping = (originalText: string) => {
     cpm,
     accuracy,
     complete,
+    durationMs,
     handleInputChange,
     resetTyping,
   };

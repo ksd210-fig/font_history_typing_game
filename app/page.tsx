@@ -29,11 +29,25 @@ export default function Home() {
     cpm,
     accuracy,
     complete,
+    durationMs,
     handleInputChange,
     resetTyping,
   } = useTyping(originalText);
 
   useInputFocus(inputRef, !complete, [selectedDataIndex]);
+
+  const focusInput = () => {
+    inputRef.current?.focus();
+  };
+
+  const handleSelectFont = () => {
+    resetTyping();
+    const btn = document.getElementById("hamburger-menu-button");
+    if (btn) {
+      (btn as HTMLButtonElement).focus();
+      btn.click();
+    }
+  };
 
   const handleRestart = () => {
     resetTyping();
@@ -53,7 +67,10 @@ export default function Home() {
   return (
     <>
       <HamburgerMenu onSelectData={handleSelectData} />
-      <div className="relative w-[800px] h-[1280px] mx-auto flex flex-col items-center justify-center gap-10">
+      <div
+        className="relative w-[800px] h-[1280px] mx-auto flex flex-col items-center justify-center gap-10"
+        onClick={focusInput}
+      >
         <ProgressBar progress={progress} />
 
         <TypingOverlay
@@ -76,7 +93,11 @@ export default function Home() {
           open={complete}
           cpm={cpm}
           accuracy={accuracy}
+          durationMs={durationMs}
+          sampleText={originalText}
+          fontClass={currentFontClass}
           onRestart={handleRestart}
+          onSelectFont={handleSelectFont}
         />
       </div>
     </>

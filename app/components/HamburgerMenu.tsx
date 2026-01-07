@@ -18,6 +18,7 @@ export default function HamburgerMenu({ onSelectData }: HamburgerMenuProps) {
     return (
         <>
             <button
+                id="hamburger-menu-button"
                 onClick={() => setIsOpen(!isOpen)}
                 className="fixed top-8 right-8 z-50 text-white text-2xl"
             >
