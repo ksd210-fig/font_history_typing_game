@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useState, useEffect } from "react";
 import { Data } from "./database";
 import Hangul from "hangul-js";
@@ -69,23 +70,53 @@ const checkChar = (
   return typed === target;
 };
 
+const calcAccuracy = (typed: string, original: string): number => {
+  if (!typed.length || !original.length) return 0;
+  let correct = 0;
+  const compareLen = Math.min(typed.length, original.length);
+  for (let i = 0; i < compareLen; i++) {
+    if (typed[i] === original[i]) correct++;
+  }
+  const extraChars = Math.max(0, typed.length - original.length);
+  const errors = (original.length - correct) + extraChars;
+  const acc = ((original.length - errors) / original.length) * 100;
+  return Math.max(0, Math.round(acc));
+};
+
 export default function Home() {
   const [typedText, setTypedText] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDataIndex, setSelectedDataIndex] = useState(0);
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [cpm, setCpm] = useState(0);
+  const [accuracy, setAccuracy] = useState(0);
   const originalText = Data[selectedDataIndex].history;
+  const progress = Math.min(
+    (typedText.length / originalText.length) * 100,
+    100
+  );
 
   // 타이핑 완료 체크
   useEffect(() => {
-    if (typedText === originalText) {
+    if (modalOpen) return;
+    if (typedText.length >= originalText.length && originalText.length > 0) {
+      const endTime = Date.now();
+      if (startTime) {
+        const minutes = (endTime - startTime) / 60000;
+        setCpm(minutes > 0 ? Math.round(originalText.length / minutes) : 0);
+      }
+      setAccuracy(calcAccuracy(typedText, originalText));
       setModalOpen(true);
     }
-  }, [typedText, originalText]);
+  }, [typedText, originalText, startTime, modalOpen]);
 
   // 재시작
   const handleRestart = () => {
     setTypedText("");
     setModalOpen(false);
+    setStartTime(null);
+    setCpm(0);
+    setAccuracy(0);
   };
 
   // 데이터 선택
@@ -93,12 +124,32 @@ export default function Home() {
     setSelectedDataIndex(index);
     setTypedText("");
     setModalOpen(false);
+    setStartTime(null);
+    setCpm(0);
+    setAccuracy(0);
+  };
+
+  const handleInputChange = (value: string) => {
+    if (!startTime && value.length > 0) {
+      setStartTime(Date.now());
+    }
+    setTypedText(value);
   };
 
   return (
     <>
       <HamburgerMenu onSelectData={handleSelectData} />
-      <div className="w-[800px] h-[1280px] mx-auto flex items-center justify-center">
+      <div className="w-[800px] h-[1280px] mx-auto flex flex-col items-center justify-center gap-10">
+        {/* 진행 바 */}
+        <div className="w-full px-8">
+          <div className="progress-bar">
+            <div
+              className="progress-fill"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+
         <div className="relative w-[600px]">
           {/* 원본 텍스트 (아래 레이어) */}
           <p className="text-gray-500 text-2xl">{originalText}</p>
@@ -124,7 +175,7 @@ export default function Home() {
           <input
             type="text"
             value={typedText}
-            onChange={(e) => setTypedText(e.target.value)}
+            onChange={(e) => handleInputChange(e.target.value)}
             autoFocus
             disabled={modalOpen}
             className="absolute top-0 left-0 w-full opacity-0"
@@ -135,7 +186,9 @@ export default function Home() {
         {modalOpen && (
           <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
             <div className="bg-gray-800 p-8 rounded-lg text-center">
-              <h2 className="text-2xl">완료</h2>
+              <p className="text-gray-300 mt-3 mb-6">
+                CPM: {cpm} / ACC: {accuracy}%
+              </p>
               <button
                 onClick={handleRestart}
                 className="bg-white text-black px-6 py-2 rounded"
