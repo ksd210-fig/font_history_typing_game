@@ -276,6 +276,21 @@ body {
   50% { opacity: 0.6; }
 }
 
+/* 오입력 시 흔들림 */
+.shake {
+  display: inline-block; /* transform이 잘 보이도록 block화 */
+  animation: shake 0.25s ease;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+
 /* 반응형 */
 @media (max-width: 768px) {
   .text-layer {

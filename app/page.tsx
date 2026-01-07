@@ -106,12 +106,13 @@ export default function Home() {
           {/* 입력된 텍스트 */}
           <p className="absolute top-0 left-0 w-full text-2xl">
             {typedText.split("").map((char, index) => (
+              // 글자별로 정오 판정 후 색상/애니메이션 적용
               <span
                 key={index}
                 className={
                   checkChar(typedText, originalText, index)
                     ? "text-white"
-                    : "text-red-500"
+                    : "text-red-500 shake"
                 }
               >
                 {char}
