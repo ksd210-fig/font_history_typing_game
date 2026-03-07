@@ -7,7 +7,7 @@ import AppHeader from "./components/AppHeader";
 import TypingOverlay from "./components/TypingOverlay";
 import ProgressBar from "./components/ProgressBar";
 import StatsModal from "./components/StatsModal";
-import { fontClassMap } from "./fonts";
+import { fontClassMap, fontSizeMap } from "./fonts";
 import { useTyping } from "./hooks/useTyping";
 import { useInputFocus } from "./hooks/useInputFocus";
 
@@ -18,6 +18,7 @@ export default function Home() {
 
   const { history: originalText, fontKey, name: fontName, designer, year } = Data[selectedDataIndex];
   const currentFontClass = fontKey ? fontClassMap[fontKey] : undefined;
+  const currentFontSizeClass = fontKey ? fontSizeMap[fontKey] : undefined;
 
   const { typedText, progress, cpm, accuracy, complete, durationMs, handleInputChange, resetTyping } =
     useTyping(originalText);
@@ -52,7 +53,7 @@ export default function Home() {
       {/* GNB(79px) + 폰트 선택 헤더(80px) = 159px offset */}
       <div className="flex flex-col min-h-screen pt-[159px]">
         <main
-          className="flex-1 flex items-center justify-center relative cursor-text"
+          className="flex-1 w-[780px] mt-10 mx-auto cursor-text"
           onClick={() => inputRef.current?.focus()}
         >
           <div className="w-[780px] flex flex-col gap-10">
@@ -60,6 +61,7 @@ export default function Home() {
               originalText={originalText}
               typedText={typedText}
               fontClass={currentFontClass}
+              fontSizeClass={currentFontSizeClass}
             />
           </div>
 
