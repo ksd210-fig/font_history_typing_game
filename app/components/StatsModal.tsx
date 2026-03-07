@@ -6,6 +6,9 @@ interface StatsModalProps {
   durationMs: number;
   sampleText: string;
   fontClass?: string;
+  fontName: string;
+  designer?: string;
+  year: number;
   onRestart: () => void;
   onSelectFont: () => void;
 }
@@ -17,6 +20,9 @@ export default function StatsModal({
   durationMs,
   sampleText,
   fontClass,
+  fontName,
+  designer,
+  year,
   onRestart,
   onSelectFont,
 }: StatsModalProps) {
@@ -25,30 +31,39 @@ export default function StatsModal({
   const seconds = Math.max(0, durationMs) / 1000;
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-      <div className="bg-gray-800 p-8 rounded-lg text-center">
-        <div className="text-gray-300 mt-2 mb-6 space-y-2">
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-[rgba(255,248,233,0.95)]">
+      <div className="p-12 rounded-xl text-center bg-[var(--bg)] border border-[var(--border-subtle)]">
+        <div className="mb-6">
+          <span className={`text-4xl text-[var(--text-correct)] ${fontClass ?? ""}`}>{fontName}</span>
+          <div className="mt-1 flex items-center justify-center gap-1 text-sm text-[var(--text-muted)]">
+            <span>{designer ?? "Unknown"}</span>
+            <span>·</span>
+            <span>{year}</span>
+          </div>
+        </div>
+
+        <div className={`text-left text-lg leading-7 mb-8 whitespace-pre-wrap text-[var(--text-correct)] ${fontClass ?? ""}`}>
+          {sampleText}
+        </div>
+
+        <div className="flex justify-center gap-5 mt-2 mb-6 text-sm text-[var(--text-correct)]">
           <p>CPM: {cpm}</p>
           <p>ACC: {accuracy}%</p>
           <p>Time: {seconds.toFixed(2)}s</p>
         </div>
-        <div
-          className={`text-gray-100 text-left text-base leading-7 mb-6 whitespace-pre-wrap ${fontClass ?? ""}`}
-        >
-          {sampleText}
-        </div>
+
         <div className="flex gap-3 justify-center">
           <button
             onClick={onRestart}
-            className="bg-white text-black px-6 py-2 rounded"
+            className="px-6 py-2 rounded text-sm font-medium bg-[var(--accent)] text-[var(--bg)]"
           >
-            다시 시작
+            Retry
           </button>
           <button
             onClick={onSelectFont}
-            className="bg-gray-200 text-black px-6 py-2 rounded"
+            className="px-6 py-2 rounded text-sm font-medium bg-transparent text-[var(--text-correct)] border border-[var(--border-subtle)]"
           >
-            다른 폰트 선택
+            Select Font
           </button>
         </div>
       </div>

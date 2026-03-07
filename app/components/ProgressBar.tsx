@@ -1,17 +1,16 @@
-// 진행도 막대 컴포넌트: %를 받아 길이로 표시
+// 진행도 막대 컴포넌트: 1px 트랙 + 진행선 + 끝 눈금 표시
 interface ProgressBarProps {
   progress: number;
 }
 
 export default function ProgressBar({ progress }: ProgressBarProps) {
   return (
-    <div className="w-full px-8">
-      <div className="progress-bar">
-        <div
-          className="progress-fill"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
+    <div className="progress-bar w-full">
+      <div className="progress-track" />
+      <div className="progress-fill" style={{ width: `${progress}%` }} />
+      {progress > 0 && progress < 100 && (
+        <div className="progress-tick" style={{ left: `${progress}%` }} />
+      )}
     </div>
   );
 }

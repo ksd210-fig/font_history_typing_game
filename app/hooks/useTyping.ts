@@ -1,10 +1,6 @@
 // 타이핑 상태/통계 관리 훅: 입력, 진행도, 정확도, CPM, 완료 여부 관리
-import { useEffect, useState } from "react";
-import {
-  calcAccuracy,
-  calcCpm,
-  calcProgress,
-} from "../lib/typing";
+import { useCallback, useEffect, useState } from "react";
+import { calcAccuracy, calcCpm, calcProgress } from "../lib/typing";
 
 export const useTyping = (originalText: string) => {
   const [typedText, setTypedText] = useState("");
@@ -16,33 +12,28 @@ export const useTyping = (originalText: string) => {
 
   const progress = calcProgress(typedText.length, originalText.length);
 
-  const resetTyping = () => {
+  const resetTyping = useCallback(() => {
     setTypedText("");
     setStartTime(null);
     setCpm(0);
     setAccuracy(0);
     setComplete(false);
     setDurationMs(0);
-  };
+  }, []);
 
-  const handleInputChange = (value: string) => {
-    if (!startTime && value.length > 0) {
-      setStartTime(Date.now());
-    }
+  const handleInputChange = useCallback((value: string) => {
+    setStartTime((prev: number | null) => (prev === null && value.length > 0 ? Date.now() : prev));
     setTypedText(value);
-  };
+  }, []);
 
   // 완료 체크
   useEffect(() => {
-    if (complete) return;
-    if (!originalText) return;
+    if (complete || !originalText) return;
     if (typedText.length >= originalText.length) {
       const endTime = Date.now();
       setCpm(calcCpm(startTime, endTime, originalText.length));
       setAccuracy(calcAccuracy(typedText, originalText));
-      if (startTime) {
-        setDurationMs(endTime - startTime);
-      }
+      if (startTime) setDurationMs(endTime - startTime);
       setComplete(true);
     }
   }, [typedText, originalText, startTime, complete]);
@@ -50,17 +41,8 @@ export const useTyping = (originalText: string) => {
   // 텍스트 변경 시 상태 초기화
   useEffect(() => {
     resetTyping();
-  }, [originalText]);
+  }, [originalText, resetTyping]);
 
-  return {
-    typedText,
-    progress,
-    cpm,
-    accuracy,
-    complete,
-    durationMs,
-    handleInputChange,
-    resetTyping,
-  };
+  return { typedText, progress, cpm, accuracy, complete, durationMs, handleInputChange, resetTyping };
 };
 

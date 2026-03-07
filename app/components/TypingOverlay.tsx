@@ -13,26 +13,30 @@ export default function TypingOverlay({
   fontClass,
 }: TypingOverlayProps) {
   return (
-    <div className="relative w-[600px]">
+    <div className="relative w-full">
       {/* 원본 텍스트 (아래 레이어) */}
-      <p className={`text-gray-500 text-2xl ${fontClass ?? ""}`}>
+      <p
+        className={`text-xl leading-9 ${fontClass ?? ""}`}
+        style={{ color: "var(--text-not-yet)" }}
+      >
         {originalText}
       </p>
 
-      {/* 입력된 텍스트 */}
-      <p className={`absolute top-0 left-0 w-full text-2xl ${fontClass ?? ""}`}>
-        {typedText.split("").map((char, index) => (
-          <span
-            key={index}
-            className={
-              checkChar(typedText, originalText, index)
-                ? "text-white"
-                : "text-red-500 shake"
-            }
-          >
-            {char}
-          </span>
-        ))}
+      {/* 입력된 텍스트 + 캐럿 */}
+      <p className={`absolute top-0 left-0 w-full text-xl leading-9 ${fontClass ?? ""}`}>
+        {typedText.split("").map((char, index) => {
+          const correct = checkChar(typedText, originalText, index);
+          return (
+            <span
+              key={index}
+              className={correct ? "" : "shake"}
+              style={{ color: correct ? "var(--text-correct)" : "var(--text-incorrect)" }}
+            >
+              {char}
+            </span>
+          );
+        })}
+        <span className="typing-caret" />
       </p>
     </div>
   );
