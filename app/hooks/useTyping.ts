@@ -26,6 +26,18 @@ export const useTyping = (originalText: string) => {
     setTypedText(value);
   }, []);
 
+  const forceComplete = useCallback(() => {
+    if (complete) return;
+    const endTime = Date.now();
+    setTypedText((current) => {
+      setCpm(calcCpm(startTime, endTime, current.length));
+      setAccuracy(calcAccuracy(current, originalText));
+      if (startTime) setDurationMs(endTime - startTime);
+      return current;
+    });
+    setComplete(true);
+  }, [complete, startTime, originalText]);
+
   // 완료 체크
   useEffect(() => {
     if (complete || !originalText) return;
@@ -43,6 +55,6 @@ export const useTyping = (originalText: string) => {
     resetTyping();
   }, [originalText, resetTyping]);
 
-  return { typedText, progress, cpm, accuracy, complete, durationMs, handleInputChange, resetTyping };
+  return { typedText, progress, cpm, accuracy, complete, durationMs, handleInputChange, resetTyping, forceComplete };
 };
 

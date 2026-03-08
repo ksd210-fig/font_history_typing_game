@@ -20,7 +20,7 @@ export default function Home() {
   const currentFontClass = fontKey ? fontClassMap[fontKey] : undefined;
   const currentFontSizeClass = fontKey ? fontSizeMap[fontKey] : undefined;
 
-  const { typedText, progress, cpm, accuracy, complete, durationMs, handleInputChange, resetTyping } =
+  const { typedText, progress, cpm, accuracy, complete, durationMs, handleInputChange, resetTyping, forceComplete } =
     useTyping(originalText);
 
   useInputFocus(inputRef, !complete, [selectedDataIndex]);
@@ -43,15 +43,17 @@ export default function Home() {
 
   return (
     <>
-      <AppHeader
-        isOpen={isMenuOpen}
-        onOpenChange={setIsMenuOpen}
-        onSelectData={handleSelectData}
-        selectedIndex={selectedDataIndex}
-      />
+      <div className="print:hidden">
+        <AppHeader
+          isOpen={isMenuOpen}
+          onOpenChange={setIsMenuOpen}
+          onSelectData={handleSelectData}
+          selectedIndex={selectedDataIndex}
+        />
+      </div>
 
       {/* GNB(79px) + 폰트 선택 헤더(80px) = 159px offset */}
-      <div className="flex flex-col min-h-screen pt-[159px]">
+      <div className="flex flex-col min-h-screen pt-[159px] print:hidden">
         <main
           className="flex-1 w-[780px] mt-10 mx-auto cursor-text"
           onClick={() => inputRef.current?.focus()}
@@ -73,6 +75,7 @@ export default function Home() {
             disabled={complete}
             ref={inputRef}
             className="absolute opacity-0 w-px h-px"
+            onKeyDown={(e) => { if (e.key === "Enter") forceComplete(); }}
           />
         </main>
 

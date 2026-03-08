@@ -31,8 +31,8 @@ export default function StatsModal({
   const seconds = Math.max(0, durationMs) / 1000;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-[rgba(255,248,233,0.95)]">
-      <div className="p-12 rounded-xl text-center bg-[var(--bg)] border border-[var(--border-subtle)]">
+    <div className="print-area fixed inset-0 flex items-center justify-center z-50 bg-black/80">
+      <div className="w-[640px] p-12 rounded-xl text-center bg-[var(--bg)] border border-[var(--border-subtle)] print:border-none print:rounded-none">
         <div className="mb-6">
           <span className={`text-4xl text-[var(--text-correct)] ${fontClass ?? ""}`}>{fontName}</span>
           <div className="mt-1 flex items-center justify-center gap-1 text-sm text-[var(--text-muted)]">
@@ -46,13 +46,17 @@ export default function StatsModal({
           {sampleText}
         </div>
 
-        <div className="flex justify-center gap-5 mt-2 mb-6 text-sm text-[var(--text-correct)]">
-          <p>CPM: {cpm}</p>
-          <p>ACC: {accuracy}%</p>
-          <p>Time: {seconds.toFixed(2)}s</p>
+        <div className="print:hidden">
+          <hr className="border-[var(--border-subtle)]" />
+          <div className="flex justify-center gap-5 py-4 text-sm text-[var(--text-correct)]">
+            <p>Characters Per Minute: {cpm}</p>
+            <p>Accuracy: {accuracy}%</p>
+            <p>Time: {seconds.toFixed(2)}s</p>
+          </div>
+          <hr className="border-[var(--border-subtle)]" />
         </div>
 
-        <div className="flex gap-3 justify-center">
+        <div className="mt-4 flex gap-3 justify-center print:hidden">
           <button
             onClick={onRestart}
             className="px-6 py-2 rounded text-sm font-medium bg-[var(--accent)] text-[var(--bg)]"
@@ -64,6 +68,12 @@ export default function StatsModal({
             className="px-6 py-2 rounded text-sm font-medium bg-transparent text-[var(--text-correct)] border border-[var(--border-subtle)]"
           >
             Select Font
+          </button>
+          <button
+            onClick={() => window.print()}
+            className="px-6 py-2 rounded text-sm font-medium bg-transparent text-[var(--text-correct)] border border-[var(--border-subtle)]"
+          >
+            Print
           </button>
         </div>
       </div>

@@ -332,6 +332,26 @@ body {
   100% { transform: translateX(0); }
 }
 
+/* 인쇄 */
+@page {
+  margin: 0;
+  size: auto;
+  width: 640px;
+  height: auto;
+  page-break-inside: avoid;
+  page-break-after: avoid;
+  page-break-before: avoid;
+  page-break-inside: avoid;
+}
+
+@media print {
+  .print-area {
+    position: static !important;
+    background: transparent !important;
+    display: block !important;
+  }
+}
+
 /* 반응형 */
 @media (max-width: 768px) {
   .text-layer {
