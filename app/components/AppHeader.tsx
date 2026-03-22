@@ -27,9 +27,6 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
             Font History
           </span>
         </div>
-        <span className="font-semibold text-[14px] text-[var(--text-correct)]">
-          History archive
-        </span>
       </nav>
 
       {/* 폰트 선택 헤더 */}
@@ -53,7 +50,7 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
           </button>
 
           {isOpen && (
-            <div className="absolute top-full left-0 min-w-full bg-[var(--bg)] border border-[var(--border-subtle)]">
+            <div className="absolute top-full left-0 min-w-full bg-[var(--bg)] border border-[var(--border-subtle)] max-h-[60vh] overflow-y-auto">
               {Data.map((item, index) => (
                 <button
                   key={item.id}
@@ -62,6 +59,7 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
                     index === selectedIndex ? "bg-[var(--border-subtle)]" : "bg-transparent"
                   }`}
                 >
+                  
                   <span className={fontClassMap[item.fontKey]}>{item.name}</span>
                   <span className="ml-2 text-[var(--text-muted)]">
                     {item.year}
@@ -73,10 +71,16 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
         </div>
 
         {/* 폰트 정보 */}
-        <div className="flex items-center ml-[30px] text-[16px] gap-1 text-[var(--text-correct)]">
-          <span>{selected.designer ?? "Unknown"}</span>
-          <span className="text-[var(--text-muted)]">·</span>
-          <span>{selected.year}</span>
+        <div className="flex items-center ml-[30px] text-[16px] text-[#726E66] gap-3">
+          <span className="flex items-center gap-2">
+            <span>Designer</span>
+            <span className="font-bold">{selected.designer ?? "Unknown"}</span>
+          </span>
+          <span>·</span>
+          <span className="flex items-center gap-2">
+            <span>Year</span>
+            <span className="font-bold">{selected.year}</span>
+          </span>
         </div>
       </header>
     </div>

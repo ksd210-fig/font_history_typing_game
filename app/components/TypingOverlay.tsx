@@ -34,7 +34,7 @@ export default function TypingOverlay({
               className={correct ? "" : "shake"}
               style={{ color: correct ? "var(--text-correct)" : "var(--text-incorrect)" }}
             >
-              {char}
+              {!correct && char === " " ? "_" : char}
             </span>
           );
         })}
