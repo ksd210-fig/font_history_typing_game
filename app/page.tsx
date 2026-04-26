@@ -155,6 +155,7 @@ export default function Home() {
         sampleText={originalText}
         fontClass={currentFontClass}
         fontName={fontName}
+        fontKey={fontKey}
         designer={designer}
         year={year}
         onRestart={handleRestart}

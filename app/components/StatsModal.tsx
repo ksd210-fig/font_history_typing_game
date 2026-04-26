@@ -1,4 +1,6 @@
-// 완료 모달: CPM/정확도/시간/샘플 문장 표기, 재시작/폰트 선택 버튼 제공
+import { fontSubstituteMap } from "../fonts";
+import type { FontKey } from "../database";
+
 interface StatsModalProps {
   open: boolean;
   cpm: number;
@@ -7,6 +9,7 @@ interface StatsModalProps {
   sampleText: string;
   fontClass?: string;
   fontName: string;
+  fontKey: FontKey;
   designer?: string;
   year: number;
   onRestart: () => void;
@@ -21,6 +24,7 @@ export default function StatsModal({
   sampleText,
   fontClass,
   fontName,
+  fontKey,
   designer,
   year,
   onRestart,
@@ -39,6 +43,8 @@ export default function StatsModal({
             <span>{designer ?? "Unknown"}</span>
             <span>·</span>
             <span>{year}</span>
+            <span>·</span>
+            <span>{fontSubstituteMap[fontKey]}</span>
           </div>
         </div>
 

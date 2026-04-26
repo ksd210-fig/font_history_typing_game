@@ -1,4 +1,4 @@
-export type FontKey = "inter" | "unifraktur" | "libreCaslon" | "cinzel" | "cardo" | "ebGaramond" | "libreBaskerville" | "bodoniModa";
+export type FontKey = "inter" | "unifraktur" | "libreCaslon" | "cinzel" | "cardo" | "ebGaramond" | "libreBaskerville" | "bodoniModa" | "clarendon" | "century" | "timesNewRoman" | "franklinGothic" | "johnston" | "futura" | "helvetica" | "frutiger" | "arial" | "verdana" | "sanFrancisco";
 
 export interface FontEntry {
   id: number;

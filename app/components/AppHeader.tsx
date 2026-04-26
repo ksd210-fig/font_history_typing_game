@@ -1,7 +1,7 @@
 "use client";
 
 import { Data } from "../database";
-import { fontClassMap } from "../fonts";
+import { fontClassMap, fontSubstituteMap } from "../fonts";
 
 interface AppHeaderProps {
   isOpen: boolean;
@@ -80,6 +80,11 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
           <span className="flex items-center gap-2">
             <span>Year</span>
             <span className="font-bold">{selected.year}</span>
+          </span>
+          <span>·</span>
+          <span className="flex items-center gap-2">
+            <span>Substitute</span>
+            <span className="font-bold">{fontSubstituteMap[selected.fontKey]}</span>
           </span>
         </div>
       </header>
