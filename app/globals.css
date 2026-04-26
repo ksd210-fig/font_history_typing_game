@@ -345,10 +345,60 @@ body {
 }
 
 @media print {
+  @page {
+    size: 58mm auto;
+    margin: 4mm 3mm;
+  }
+
+  * {
+    color: #000 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
   .print-area {
     position: static !important;
-    background: transparent !important;
     display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  .print-receipt {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    text-align: left !important;
+  }
+
+  .print-receipt-title {
+    font-size: 14pt !important;
+    font-weight: bold !important;
+    margin-bottom: 1mm !important;
+  }
+
+  .print-receipt-meta {
+    font-size: 7pt !important;
+    margin-bottom: 3mm !important;
+    border-bottom: 1px dashed #000;
+    padding-bottom: 2mm !important;
+  }
+
+  .print-receipt-body {
+    font-size: 7.5pt !important;
+    line-height: 1.5 !important;
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+  }
+
+  .print-receipt-stats {
+    font-size: 7pt !important;
+    margin-top: 3mm !important;
+    border-top: 1px dashed #000;
+    padding-top: 2mm !important;
   }
 }
 
