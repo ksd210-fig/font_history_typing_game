@@ -19,7 +19,21 @@ export default function Home() {
   const [selectedDataIndex, setSelectedDataIndex] = useState(1);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [viewportHeight, setViewportHeight] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const update = () => setViewportHeight(vv.height);
+    update();
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+    };
+  }, []);
 
   const { history: originalText, fontKey, name: fontName, designer, year } = Data[selectedDataIndex];
   const currentFontClass = fontKey ? fontClassMap[fontKey] : undefined;
@@ -95,7 +109,10 @@ export default function Home() {
       </div>
 
       {/* GNB(60px) + 폰트 선택 헤더(80px) = 140px, 전체 높이 고정 */}
-      <div className="flex flex-col h-screen pt-[140px] print:hidden">
+      <div
+        className="flex flex-col pt-[140px] print:hidden"
+        style={{ height: viewportHeight ? `${viewportHeight}px` : "100dvh" }}
+      >
         {/* 텍스트 영역만 내부 스크롤 */}
         <div
           className="flex-1 overflow-y-auto cursor-text"
@@ -117,7 +134,7 @@ export default function Home() {
               autoFocus
               disabled={complete}
               ref={inputRef}
-              className="absolute opacity-0 w-px h-px"
+              className="fixed bottom-0 left-0 opacity-0 w-px h-px pointer-events-none"
             />
           </main>
         </div>
