@@ -97,7 +97,7 @@ export default function Home() {
       {/* GNB(60px) + 폰트 선택 헤더(80px) = 140px offset */}
       <div className="flex flex-col min-h-screen pt-[140px] print:hidden">
         <main
-          className="flex-1 w-full max-w-[780px] mt-10 sm:mt-16 md:mt-20 mx-auto px-5 sm:px-8 lg:px-0 cursor-text"
+          className="flex-1 w-full max-w-[780px] mt-10 sm:mt-16 md:mt-20 mx-auto px-5 sm:px-8 lg:px-0 pb-[120px] cursor-text"
           onClick={() => inputRef.current?.focus()}
         >
           <TypingOverlay
