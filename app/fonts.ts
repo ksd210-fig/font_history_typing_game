@@ -128,71 +128,40 @@ const notoSans = Noto_Sans({
   display: "swap",
 });
 
+const BASE_SIZE = "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9";
+
 // 새 폰트 추가 시 여기에만 등록하면 됩니다
-export const fontClassMap: Record<FontKey, string> = {
-  inter: inter.className,
-  unifraktur: unifraktur.className,
-  libreCaslon: libreCaslon.className,
-  cinzel: cinzel.className,
-  cardo: cardo.className,
-  ebGaramond: ebGaramond.className,
-  libreBaskerville: libreBaskerville.className,
-  bodoniModa: bodoniModa.className,
-  clarendon: zillaSlab.className,
-  century: merriweather.className,
-  timesNewRoman: ptSerif.className,
-  franklinGothic: libreFranklin.className,
-  johnston: cabin.className,
-  futura: poppins.className,
-  helvetica: inter.className,
-  frutiger: sourceSans3.className,
-  arial: roboto.className,
-  verdana: openSans.className,
-  sanFrancisco: notoSans.className,
+const fontConfig: Record<FontKey, { className: string; substitute: string; sizeClass: string }> = {
+  inter:            { className: inter.className,           substitute: "Inter",               sizeClass: BASE_SIZE },
+  unifraktur:       { className: unifraktur.className,      substitute: "UnifrakturMaguntia",   sizeClass: "text-lg leading-8 sm:text-xl sm:leading-9 md:text-2xl md:leading-9" },
+  libreCaslon:      { className: libreCaslon.className,     substitute: "Libre Caslon Text",    sizeClass: BASE_SIZE },
+  cinzel:           { className: cinzel.className,          substitute: "Cinzel",               sizeClass: BASE_SIZE },
+  cardo:            { className: cardo.className,           substitute: "Cardo",                sizeClass: BASE_SIZE },
+  ebGaramond:       { className: ebGaramond.className,      substitute: "EB Garamond",          sizeClass: BASE_SIZE },
+  libreBaskerville: { className: libreBaskerville.className,substitute: "Libre Baskerville",    sizeClass: BASE_SIZE },
+  bodoniModa:       { className: bodoniModa.className,      substitute: "Bodoni Moda",          sizeClass: BASE_SIZE },
+  clarendon:        { className: zillaSlab.className,       substitute: "Zilla Slab",           sizeClass: BASE_SIZE },
+  century:          { className: merriweather.className,    substitute: "Merriweather",         sizeClass: BASE_SIZE },
+  timesNewRoman:    { className: ptSerif.className,         substitute: "PT Serif",             sizeClass: BASE_SIZE },
+  franklinGothic:   { className: libreFranklin.className,   substitute: "Libre Franklin",       sizeClass: BASE_SIZE },
+  johnston:         { className: cabin.className,           substitute: "Cabin",                sizeClass: BASE_SIZE },
+  futura:           { className: poppins.className,         substitute: "Poppins",              sizeClass: BASE_SIZE },
+  helvetica:        { className: inter.className,           substitute: "Inter",                sizeClass: BASE_SIZE },
+  frutiger:         { className: sourceSans3.className,     substitute: "Source Sans 3",        sizeClass: BASE_SIZE },
+  arial:            { className: roboto.className,          substitute: "Roboto",               sizeClass: BASE_SIZE },
+  verdana:          { className: openSans.className,        substitute: "Open Sans",            sizeClass: BASE_SIZE },
+  sanFrancisco:     { className: notoSans.className,        substitute: "Noto Sans",            sizeClass: BASE_SIZE },
 };
 
-export const fontSubstituteMap: Record<FontKey, string> = {
-  inter: "Inter",
-  unifraktur: "UnifrakturMaguntia",
-  libreCaslon: "Libre Caslon Text",
-  cinzel: "Cinzel",
-  cardo: "Cardo",
-  ebGaramond: "EB Garamond",
-  libreBaskerville: "Libre Baskerville",
-  bodoniModa: "Bodoni Moda",
-  clarendon: "Zilla Slab",
-  century: "Merriweather",
-  timesNewRoman: "PT Serif",
-  franklinGothic: "Libre Franklin",
-  johnston: "Cabin",
-  futura: "Poppins",
-  helvetica: "Inter",
-  frutiger: "Source Sans 3",
-  arial: "Roboto",
-  verdana: "Open Sans",
-  sanFrancisco: "Noto Sans",
-};
+export const fontClassMap = Object.fromEntries(
+  Object.entries(fontConfig).map(([k, v]) => [k, v.className])
+) as Record<FontKey, string>;
 
-// 폰트별 타이핑 영역 크기 클래스 (시각적 크기 통일)
-export const fontSizeMap: Record<FontKey, string> = {
-  inter: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  unifraktur: "text-lg leading-8 sm:text-xl sm:leading-9 md:text-2xl md:leading-9",
-  libreCaslon: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  cinzel: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  cardo: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  ebGaramond: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  libreBaskerville: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  bodoniModa: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  clarendon: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  century: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  timesNewRoman: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  franklinGothic: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  johnston: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  futura: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  helvetica: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  frutiger: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  arial: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  verdana: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-  sanFrancisco: "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
-};
+export const fontSubstituteMap = Object.fromEntries(
+  Object.entries(fontConfig).map(([k, v]) => [k, v.substitute])
+) as Record<FontKey, string>;
+
+export const fontSizeMap = Object.fromEntries(
+  Object.entries(fontConfig).map(([k, v]) => [k, v.sizeClass])
+) as Record<FontKey, string>;
 

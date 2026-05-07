@@ -42,7 +42,7 @@ export default function Home() {
   const { typedText, progress, cpm, accuracy, complete, durationMs, handleInputChange, resetTyping } =
     useTyping(originalText);
 
-  useInputFocus(inputRef, !complete, [selectedDataIndex]);
+  useInputFocus(inputRef, !complete, selectedDataIndex);
 
   useEffect(() => {
     if (complete) setShowModal(true);
