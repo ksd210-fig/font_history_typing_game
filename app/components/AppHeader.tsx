@@ -21,7 +21,7 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
   return (
     <div className="fixed top-0 left-0 right-0 z-40">
       {/* GNB */}
-      <nav className="flex items-center justify-between px-8 h-[60px] bg-[var(--bg)] border-b border-[var(--border-subtle)]">
+      <nav className="flex items-center justify-between px-4 sm:px-8 h-[60px] bg-[var(--bg)] border-b border-[var(--border-subtle)]">
         <div className="flex items-center gap-2">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="text-[var(--text-correct)]">
             <line x1="7" y1="0" x2="7" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -29,20 +29,20 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
             <line x1="2" y1="2" x2="12" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             <line x1="12" y1="2" x2="2" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
           </svg>
-          <span className="font-semibold text-[16px] text-[var(--text-correct)]">Font History</span>
+          <span className="font-semibold text-[15px] sm:text-[16px] text-[var(--text-correct)]">Font History</span>
         </div>
-        <span className="text-[14px] font-semibold text-[var(--text-correct)]">History archive</span>
+        <span className="hidden sm:block text-[14px] font-semibold text-[var(--text-correct)]">History archive</span>
       </nav>
 
       {/* 폰트 선택 헤더 */}
-      <header className="flex items-stretch px-8 h-[80px] bg-[var(--bg)] border-b border-[var(--border-subtle)]">
+      <header className="flex items-stretch px-4 sm:px-8 h-[80px] bg-[var(--bg)] border-b border-[var(--border-subtle)]">
         {/* 폰트 선택 드롭다운 버튼 */}
-        <div className="relative flex items-stretch">
+        <div className="relative flex items-stretch shrink-0">
           <button
             onClick={() => onOpenChange(!isOpen)}
-            className="flex items-center gap-3 px-8 h-full bg-[var(--accent)] text-[var(--bg)]"
+            className="flex items-center gap-2 sm:gap-3 px-4 sm:px-8 h-full bg-[var(--accent)] text-[var(--bg)]"
           >
-            <span className={`text-3xl ${fontClassMap[selected.fontKey]}`}>{selected.name}</span>
+            <span className={`text-2xl sm:text-3xl ${fontClassMap[selected.fontKey]}`}>{selected.name}</span>
             <svg
               width="12"
               height="8"
@@ -55,12 +55,12 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
           </button>
 
           {isOpen && (
-            <div className="absolute top-full left-0 min-w-full bg-[var(--bg)] border border-[var(--border-subtle)] max-h-[60vh] overflow-y-auto">
+            <div className="absolute top-full left-0 min-w-full bg-[var(--bg)] border border-[var(--border-subtle)] max-h-[60vh] overflow-y-auto z-50">
               {Data.map((item, index) => (
                 <button
                   key={item.id}
                   onClick={() => handleItemClick(index)}
-                  className={`w-full px-8 py-3 text-left text-sm text-[var(--text-correct)] transition-opacity hover:opacity-60 ${
+                  className={`w-full px-6 sm:px-8 py-3 text-left text-sm text-[var(--text-correct)] transition-opacity hover:opacity-60 ${
                     index === selectedIndex ? "bg-[var(--border-subtle)]" : "bg-transparent"
                   }`}
                 >
@@ -72,13 +72,13 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
           )}
         </div>
 
-        {/* 폰트 정보 */}
-        <div className="flex items-center ml-[30px] text-[15px] text-[var(--text-muted)] gap-2">
+        {/* 폰트 정보: sm 이상에서만 표시 */}
+        <div className="hidden sm:flex items-center ml-5 sm:ml-[30px] text-[13px] sm:text-[15px] text-[var(--text-muted)] gap-2">
           <span>{selected.designer ?? "Unknown"}</span>
           <span>·</span>
           <span>{selected.year}</span>
-          <span>·</span>
-          <span>{fontSubstituteMap[selected.fontKey]}</span>
+          <span className="hidden md:inline">·</span>
+          <span className="hidden md:inline">{fontSubstituteMap[selected.fontKey]}</span>
         </div>
       </header>
     </div>

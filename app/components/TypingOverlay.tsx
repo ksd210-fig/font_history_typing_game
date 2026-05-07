@@ -12,7 +12,7 @@ export default function TypingOverlay({
   originalText,
   typedText,
   fontClass,
-  fontSizeClass = "text-xl leading-9",
+  fontSizeClass = "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
 }: TypingOverlayProps) {
   return (
     <div className="relative w-full">

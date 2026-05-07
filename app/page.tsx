@@ -97,7 +97,7 @@ export default function Home() {
       {/* GNB(60px) + 폰트 선택 헤더(80px) = 140px offset */}
       <div className="flex flex-col min-h-screen pt-[140px] print:hidden">
         <main
-          className="flex-1 w-[780px] mt-20 mx-auto cursor-text"
+          className="flex-1 w-full max-w-[780px] mt-10 sm:mt-16 md:mt-20 mx-auto px-5 sm:px-8 lg:px-0 cursor-text"
           onClick={() => inputRef.current?.focus()}
         >
           <TypingOverlay
@@ -120,7 +120,7 @@ export default function Home() {
         </main>
 
         {/* 프로그레스 바: 푸터 바로 위 고정 */}
-        <div className="fixed left-1/2 -translate-x-1/2 w-[780px] bottom-[60px] pointer-events-none">
+        <div className="fixed left-1/2 -translate-x-1/2 w-full max-w-[780px] px-5 sm:px-8 lg:px-0 bottom-[60px] pointer-events-none">
           <ProgressBar progress={progress} />
         </div>
 
