@@ -94,37 +94,42 @@ export default function Home() {
         />
       </div>
 
-      {/* GNB(60px) + 폰트 선택 헤더(80px) = 140px offset */}
-      <div className="flex flex-col min-h-screen pt-[140px] print:hidden">
-        <main
-          className="flex-1 w-full max-w-[780px] mt-10 sm:mt-16 md:mt-20 mx-auto px-5 sm:px-8 lg:px-0 pb-[120px] cursor-text"
+      {/* GNB(60px) + 폰트 선택 헤더(80px) = 140px, 전체 높이 고정 */}
+      <div className="flex flex-col h-screen pt-[140px] print:hidden">
+        {/* 텍스트 영역만 내부 스크롤 */}
+        <div
+          className="flex-1 overflow-y-auto cursor-text"
           onClick={() => inputRef.current?.focus()}
         >
-          <TypingOverlay
-            originalText={originalText}
-            typedText={typedText}
-            fontClass={currentFontClass}
-            fontSizeClass={currentFontSizeClass}
-          />
+          <main className="w-full max-w-[780px] mt-10 sm:mt-16 md:mt-20 mx-auto px-5 sm:px-8 lg:px-0">
+            <TypingOverlay
+              originalText={originalText}
+              typedText={typedText}
+              fontClass={currentFontClass}
+              fontSizeClass={currentFontSizeClass}
+            />
 
-          <input
-            type="text"
-            value={typedText}
-            onChange={(e) => handleTextInputChange(e.target.value)}
-            onKeyDown={handleTypingKeyDown}
-            autoFocus
-            disabled={complete}
-            ref={inputRef}
-            className="absolute opacity-0 w-px h-px"
-          />
-        </main>
-
-        {/* 프로그레스 바: 푸터 바로 위 고정 */}
-        <div className="fixed left-1/2 -translate-x-1/2 w-full max-w-[780px] px-5 sm:px-8 lg:px-0 bottom-[60px] pointer-events-none">
-          <ProgressBar progress={progress} />
+            <input
+              type="text"
+              value={typedText}
+              onChange={(e) => handleTextInputChange(e.target.value)}
+              onKeyDown={handleTypingKeyDown}
+              autoFocus
+              disabled={complete}
+              ref={inputRef}
+              className="absolute opacity-0 w-px h-px"
+            />
+          </main>
         </div>
 
-        <footer className="flex items-center justify-center h-[50px] border-t border-[var(--border-subtle)]">
+        {/* 프로그레스바: 배경 있는 고정 영역 */}
+        <div className="shrink-0 bg-[var(--bg)] py-5">
+          <div className="w-full max-w-[780px] mx-auto px-5 sm:px-8 lg:px-0">
+            <ProgressBar progress={progress} />
+          </div>
+        </div>
+
+        <footer className="shrink-0 flex items-center justify-center h-[50px] border-t border-[var(--border-subtle)]">
           <p className="text-[12px] text-[var(--text-muted)]">©2026 Fig.1 Studio</p>
         </footer>
       </div>
