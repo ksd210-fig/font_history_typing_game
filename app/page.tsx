@@ -31,6 +31,10 @@ export default function Home() {
   useInputFocus(inputRef, !complete, [selectedDataIndex]);
 
   useEffect(() => {
+    if (complete) setShowModal(true);
+  }, [complete]);
+
+  useEffect(() => {
     if (!showModal) return;
     playFinishSound();
   }, [showModal]);

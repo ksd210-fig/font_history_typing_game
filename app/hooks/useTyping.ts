@@ -1,9 +1,10 @@
 // 타이핑 상태/통계 관리 훅: 입력, 진행도, 정확도, CPM, 완료 여부 관리
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { calcAccuracy, calcCpm, calcProgress } from "../lib/typing";
 
 export const useTyping = (originalText: string) => {
   const [typedText, setTypedText] = useState("");
+  const typedTextRef = useRef("");
   const [startTime, setStartTime] = useState<number | null>(null);
   const [cpm, setCpm] = useState(0);
   const [accuracy, setAccuracy] = useState(0);
@@ -13,6 +14,7 @@ export const useTyping = (originalText: string) => {
   const progress = calcProgress(typedText.length, originalText.length);
 
   const resetTyping = useCallback(() => {
+    typedTextRef.current = "";
     setTypedText("");
     setStartTime(null);
     setCpm(0);
@@ -23,18 +25,17 @@ export const useTyping = (originalText: string) => {
 
   const handleInputChange = useCallback((value: string) => {
     setStartTime((prev: number | null) => (prev === null && value.length > 0 ? Date.now() : prev));
+    typedTextRef.current = value;
     setTypedText(value);
   }, []);
 
   const forceComplete = useCallback(() => {
     if (complete) return;
     const endTime = Date.now();
-    setTypedText((current) => {
-      setCpm(calcCpm(startTime, endTime, current.length));
-      setAccuracy(calcAccuracy(current, originalText));
-      if (startTime) setDurationMs(endTime - startTime);
-      return current;
-    });
+    const current = typedTextRef.current;
+    setCpm(calcCpm(startTime, endTime, current.length));
+    setAccuracy(calcAccuracy(current, originalText));
+    if (startTime) setDurationMs(endTime - startTime);
     setComplete(true);
   }, [complete, startTime, originalText]);
 

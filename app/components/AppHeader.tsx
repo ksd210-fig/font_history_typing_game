@@ -83,7 +83,7 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
           </span>
           <span>·</span>
           <span className="flex items-center gap-2">
-            <span>Substitute</span>
+            <span>Displayed as</span>
             <span className="font-bold">{fontSubstituteMap[selected.fontKey]}</span>
           </span>
         </div>
