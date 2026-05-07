@@ -90,14 +90,6 @@ export const Data: FontEntry[] = [
   },
   {
     id: 11,
-    name: "Times New Roman",
-    year: 1932,
-    designer: "Stanley Morison and Victor Lardent",
-    history: "By the early 20th century, newspapers required fast mass production and had to fit large amounts of information into limited space. In 1931, The Times adopted Times New Roman, developed by Stanley Morison in collaboration with Victor Lardent. Designed for readability in narrow columns, it features controlled stroke contrast, compressed letter width, and tight line and letter spacing, while maintaining clarity in high-speed printing. It later became a standard typeface for documents, reports, and academic publishing.",
-    fontKey: "timesNewRoman",
-  },
-  {
-    id: 12,
     name: "Franklin Gothic",
     year: 1902,
     designer: "Morris Fuller Benton",
@@ -105,7 +97,7 @@ export const Data: FontEntry[] = [
     fontKey: "franklinGothic",
   },
   {
-    id: 13,
+    id: 12,
     name: "Johnston",
     year: 1916,
     designer: "Johnston",
@@ -113,12 +105,20 @@ export const Data: FontEntry[] = [
     fontKey: "johnston",
   },
   {
-    id: 14,
+    id: 13,
     name: "Futura",
     year: 1927,
     designer: "Paul Renner",
     history: "After World War I, growing skepticism toward existing values led to a demand for forms suited to a new era. In 1927, Paul Renner introduced Futura, a typeface based on geometric principles that rejected traditional calligraphic influences and reflected functionalism, technological optimism, and modernist ideals aligned with the Bauhaus movement. Although its strict geometry limited readability in long texts, Futura proved highly effective in posters and signage, establishing itself as a symbol of modernity and rationality. It is now regarded as a starting point for geometric sans-serif typefaces and modernist design.",
     fontKey: "futura",
+  },
+  {
+    id: 14,
+    name: "Times New Roman",
+    year: 1932,
+    designer: "Stanley Morison and Victor Lardent",
+    history: "By the early 20th century, newspapers required fast mass production and had to fit large amounts of information into limited space. In 1931, The Times adopted Times New Roman, developed by Stanley Morison in collaboration with Victor Lardent. Designed for readability in narrow columns, it features controlled stroke contrast, compressed letter width, and tight line and letter spacing, while maintaining clarity in high-speed printing. It later became a standard typeface for documents, reports, and academic publishing.",
+    fontKey: "timesNewRoman",
   },
   {
     id: 15,
