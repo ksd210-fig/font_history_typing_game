@@ -13,7 +13,6 @@ interface StatsModalProps {
   designer?: string;
   year: number;
   onRestart: () => void;
-  onSelectFont: () => void;
 }
 
 export default function StatsModal({
@@ -28,7 +27,6 @@ export default function StatsModal({
   designer,
   year,
   onRestart,
-  onSelectFont,
 }: StatsModalProps) {
   if (!open) return null;
 
@@ -71,12 +69,6 @@ export default function StatsModal({
             className="px-6 py-2 rounded text-sm font-medium bg-[var(--accent)] text-[var(--bg)]"
           >
             Retry
-          </button>
-          <button
-            onClick={onSelectFont}
-            className="px-6 py-2 rounded text-sm font-medium bg-transparent text-[var(--text-correct)] border border-[var(--border-subtle)]"
-          >
-            Select Font
           </button>
           <button
             onClick={() => window.print()}

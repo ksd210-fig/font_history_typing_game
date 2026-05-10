@@ -190,7 +190,6 @@ export default function Home() {
         designer={designer}
         year={year}
         onRestart={handleRestart}
-        onSelectFont={handleSelectFont}
       />
     </>
   );
