@@ -65,16 +65,16 @@ export default function StatsModal({
 
         <div className="mt-4 flex gap-3 justify-center print:hidden">
           <button
-            onClick={onRestart}
-            className="px-6 py-2 rounded text-sm font-medium bg-[var(--accent)] text-[var(--bg)]"
-          >
-            Retry
-          </button>
-          <button
             onClick={() => window.print()}
-            className="px-6 py-2 rounded text-sm font-medium bg-transparent text-[var(--text-correct)] border border-[var(--border-subtle)]"
+            className="px-12 py-2 rounded text-sm font-medium bg-transparent text-[var(--text-correct)] border border-[var(--border-subtle)]"
           >
             Print
+          </button>
+          <button
+            onClick={onRestart}
+            className="px-12 py-2 rounded text-sm font-medium bg-[var(--accent)] text-[var(--bg)]"
+          >
+            Retry
           </button>
         </div>
       </div>
