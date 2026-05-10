@@ -40,8 +40,13 @@ export default function Home() {
   const currentFontSizeClass = fontKey ? fontSizeMap[fontKey] : undefined;
   const caseInsensitive = fontKey ? fontCaseInsensitiveMap[fontKey] : false;
 
-  const { typedText, progress, cpm, accuracy, complete, durationMs, handleInputChange, resetTyping } =
+  const { typedText, progress, cpm, accuracy, complete, durationMs, handleInputChange, resetTyping, forceComplete } =
     useTyping(originalText, caseInsensitive);
+
+  const remainingWords = (() => {
+    const remaining = originalText.slice(typedText.length).trim();
+    return remaining ? remaining.split(/\s+/).length : 0;
+  })();
 
   useInputFocus(inputRef, !complete, selectedDataIndex);
 
@@ -142,11 +147,31 @@ export default function Home() {
         </div>
 
         {/* 프로그레스바: 배경 있는 고정 영역 */}
-        <div className="shrink-0 bg-[var(--bg)] py-5">
+        <div className="shrink-0 bg-[var(--bg)] pt-5 pb-4">
           <div className="w-full max-w-[780px] mx-auto px-5 sm:px-8 lg:px-0">
             <ProgressBar progress={progress} />
+            <div className="flex justify-between mt-2 text-[13px]">
+              <span className="text-[var(--text-muted)]">
+                Progress: <strong className="text-[var(--text-correct)]">{Math.round(progress)}%</strong>
+              </span>
+              <span className="text-[var(--text-muted)]">
+                Remaining: <strong className="text-[var(--text-correct)]">{remainingWords} words</strong>
+              </span>
+            </div>
           </div>
         </div>
+
+        {/* Finish 버튼 */}
+        {!complete && (
+          <div className="shrink-0 bg-[var(--bg)] pb-4 flex justify-center">
+            <button
+              onClick={forceComplete}
+              className="px-7 py-3 text-[14px] font-medium bg-[var(--accent)] text-[var(--bg)] rounded-sm hover:opacity-80 transition-opacity"
+            >
+              Finish &amp; View Results
+            </button>
+          </div>
+        )}
 
         <footer className="shrink-0 flex items-center justify-center h-[50px] border-t border-[var(--border-subtle)]">
           <p className="text-[12px] text-[var(--text-muted)]">©2026 Fig.1 Studio</p>

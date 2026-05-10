@@ -1,3 +1,4 @@
+import localFont from "next/font/local";
 import {
   Inter,
   UnifrakturMaguntia,
@@ -19,6 +20,14 @@ import {
   Noto_Sans,
 } from "next/font/google";
 import type { FontKey } from "./database";
+
+export const aspekta = localFont({
+  src: [
+    { path: "../public/Aspekta-400.otf", weight: "400" },
+    { path: "../public/Aspekta-600.otf", weight: "600" },
+  ],
+  display: "swap",
+});
 
 const inter = Inter({
   subsets: ["latin"],

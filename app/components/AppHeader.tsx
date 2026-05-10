@@ -1,7 +1,7 @@
 "use client";
 
 import { Data } from "../database";
-import { fontClassMap, fontSubstituteMap } from "../fonts";
+import { aspekta, fontClassMap, fontSubstituteMap } from "../fonts";
 
 interface AppHeaderProps {
   isOpen: boolean;
@@ -73,12 +73,23 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
         </div>
 
         {/* 폰트 정보: sm 이상에서만 표시 */}
-        <div className="hidden sm:flex items-center ml-5 sm:ml-[30px] text-[13px] sm:text-[15px] text-[var(--text-muted)] gap-2">
-          <span>{selected.designer ?? "Unknown"}</span>
-          <span>·</span>
-          <span>{selected.year}</span>
-          <span className="hidden md:inline">·</span>
-          <span className="hidden md:inline">{fontSubstituteMap[selected.fontKey]}</span>
+        <div className={`hidden sm:flex items-center ml-5 sm:ml-[30px] text-[13px] sm:text-[15px] gap-3 ${aspekta.className}`}>
+          <span className="flex items-center gap-[6px]">
+            <span className="font-normal text-[var(--text-muted)]">Designer</span>
+            <span className="font-semibold" style={{ color: "#726E66" }}>{selected.designer ?? "Unknown"}</span>
+          </span>
+          <span className="font-normal text-[var(--text-muted)]">·</span>
+          <span className="flex items-center gap-[6px]">
+            <span className="font-normal text-[var(--text-muted)]">Year</span>
+            <span className="font-semibold" style={{ color: "#726E66" }}>{selected.year}</span>
+          </span>
+          <span className="hidden md:contents">
+            <span className="font-normal text-[var(--text-muted)]">·</span>
+            <span className="flex items-center gap-[6px]">
+              <span className="font-normal text-[var(--text-muted)]">Display by</span>
+              <span className="font-semibold" style={{ color: "#726E66" }}>{fontSubstituteMap[selected.fontKey]}</span>
+            </span>
+          </span>
         </div>
       </header>
     </div>

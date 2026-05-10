@@ -35,8 +35,9 @@ export default function StatsModal({
   const seconds = Math.max(0, durationMs) / 1000;
 
   return (
-    <div className="print-area fixed inset-0 flex items-center justify-center z-50 bg-black/80">
-      <div className="print-receipt w-[640px] p-12 rounded-xl text-center bg-[var(--bg)] border border-[var(--border-subtle)]">
+    <div className="print-area fixed inset-0 z-50 bg-black/80 overflow-y-auto">
+      <div className="min-h-full flex items-center justify-center p-4 sm:p-6">
+      <div className="print-receipt w-full max-w-[640px] p-8 sm:p-12 rounded-xl text-center bg-[var(--bg)] border border-[var(--border-subtle)]">
         <div className="mb-6">
           <div className="print-receipt-title">
             <span className={`text-4xl text-[var(--text-correct)] ${fontClass ?? ""}`}>{fontName}</span>
@@ -84,6 +85,7 @@ export default function StatsModal({
             Print
           </button>
         </div>
+      </div>
       </div>
     </div>
   );
