@@ -114,9 +114,9 @@ export default function Home() {
         />
       </div>
 
-      {/* GNB(60px) + 폰트 선택 헤더(80px) = 140px, 전체 높이 고정 */}
+      {/* GNB(60px) + 폰트 선택 헤더(56px mo / 80px sm) */}
       <div
-        className="flex flex-col pt-[140px] print:hidden"
+        className="flex flex-col pt-[116px] sm:pt-[140px] print:hidden"
         style={{ height: viewportHeight ? `${viewportHeight}px` : "100dvh" }}
       >
         {/* 텍스트 영역만 내부 스크롤 */}

@@ -35,14 +35,14 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
       </nav>
 
       {/* 폰트 선택 헤더 */}
-      <header className="flex items-stretch px-4 sm:px-8 h-[80px] bg-[var(--bg)] border-b border-[var(--border-subtle)]">
+      <header className="flex items-stretch px-4 sm:px-8 h-[56px] sm:h-[80px] bg-[var(--bg)] border-b border-[var(--border-subtle)]">
         {/* 폰트 선택 드롭다운 버튼 */}
         <div className="relative flex items-stretch shrink-0">
           <button
             onClick={() => onOpenChange(!isOpen)}
             className="flex items-center gap-2 sm:gap-3 px-4 sm:px-8 h-full bg-[var(--accent)] text-[var(--bg)]"
           >
-            <span className={`text-2xl sm:text-3xl ${fontClassMap[selected.fontKey]}`}>{selected.name}</span>
+            <span className={`text-xl sm:text-3xl ${fontClassMap[selected.fontKey]}`}>{selected.name}</span>
             <svg
               width="12"
               height="8"
@@ -72,13 +72,13 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
           )}
         </div>
 
-        {/* 폰트 정보: sm 이상에서만 표시 */}
-        <div className={`hidden sm:flex items-center ml-5 sm:ml-[30px] text-[13px] sm:text-[15px] gap-3 ${aspekta.className}`}>
-          <span className="flex items-center gap-[6px]">
+        {/* 폰트 정보 */}
+        <div className={`flex items-center ml-5 sm:ml-[30px] text-[13px] sm:text-[15px] gap-3 ${aspekta.className}`}>
+          <span className="hidden sm:flex items-center gap-[6px]">
             <span className="font-normal text-[var(--text-muted)]">Designer</span>
             <span className="font-semibold" style={{ color: "#726E66" }}>{selected.designer ?? "Unknown"}</span>
           </span>
-          <span className="font-normal text-[var(--text-muted)]">·</span>
+          <span className="hidden sm:inline font-normal text-[var(--text-muted)]">·</span>
           <span className="flex items-center gap-[6px]">
             <span className="font-normal text-[var(--text-muted)]">Year</span>
             <span className="font-semibold" style={{ color: "#726E66" }}>{selected.year}</span>
