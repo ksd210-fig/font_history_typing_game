@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { calcAccuracy, calcCpm, calcProgress } from "../lib/typing";
 
-export const useTyping = (originalText: string) => {
+export const useTyping = (originalText: string, caseInsensitive = false) => {
   const [typedText, setTypedText] = useState("");
   const typedTextRef = useRef("");
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -34,10 +34,10 @@ export const useTyping = (originalText: string) => {
     const endTime = Date.now();
     const current = typedTextRef.current;
     setCpm(calcCpm(startTime, endTime, current.length));
-    setAccuracy(calcAccuracy(current, originalText));
+    setAccuracy(calcAccuracy(current, originalText, caseInsensitive));
     if (startTime) setDurationMs(endTime - startTime);
     setComplete(true);
-  }, [complete, startTime, originalText]);
+  }, [complete, startTime, originalText, caseInsensitive]);
 
   // 완료 체크
   useEffect(() => {
@@ -45,7 +45,7 @@ export const useTyping = (originalText: string) => {
     if (typedText.length >= originalText.length) {
       const endTime = Date.now();
       setCpm(calcCpm(startTime, endTime, originalText.length));
-      setAccuracy(calcAccuracy(typedText, originalText));
+      setAccuracy(calcAccuracy(typedText, originalText, caseInsensitive));
       if (startTime) setDurationMs(endTime - startTime);
       setComplete(true);
     }

@@ -47,24 +47,31 @@ export const isCorrectWithNextChar = (
 export const checkChar = (
   typedText: string,
   originalText: string,
-  index: number
+  index: number,
+  caseInsensitive = false
 ): boolean => {
   const typed = typedText[index];
   const target = originalText[index];
-  const nextTarget = originalText[index + 1] || "";
 
+  if (caseInsensitive) {
+    return typed?.toLowerCase() === target?.toLowerCase();
+  }
+
+  const nextTarget = originalText[index + 1] || "";
   if (index === typedText.length - 1) {
     return isCorrectWithNextChar(typed, target, nextTarget);
   }
   return typed === target;
 };
 
-export const calcAccuracy = (typed: string, original: string): number => {
+export const calcAccuracy = (typed: string, original: string, caseInsensitive = false): number => {
   if (!typed.length || !original.length) return 0;
   let correct = 0;
   const compareLen = Math.min(typed.length, original.length);
   for (let i = 0; i < compareLen; i++) {
-    if (typed[i] === original[i]) correct++;
+    const a = caseInsensitive ? typed[i].toLowerCase() : typed[i];
+    const b = caseInsensitive ? original[i].toLowerCase() : original[i];
+    if (a === b) correct++;
   }
   const extraChars = Math.max(0, typed.length - original.length);
   const errors = original.length - correct + extraChars;

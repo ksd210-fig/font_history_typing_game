@@ -7,6 +7,7 @@ interface TypingOverlayProps {
   typedText: string;
   fontClass?: string;
   fontSizeClass?: string;
+  caseInsensitive?: boolean;
 }
 
 export default function TypingOverlay({
@@ -14,6 +15,7 @@ export default function TypingOverlay({
   typedText,
   fontClass,
   fontSizeClass = "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9",
+  caseInsensitive = false,
 }: TypingOverlayProps) {
   const caretRef = useRef<HTMLSpanElement>(null);
 
@@ -39,7 +41,7 @@ export default function TypingOverlay({
         {originalText.split("").map((char, index) => {
           if (index < typedText.length) {
             const typedChar = typedText[index];
-            const correct = checkChar(typedText, originalText, index);
+            const correct = checkChar(typedText, originalText, index, caseInsensitive);
             return (
               <span
                 key={index}

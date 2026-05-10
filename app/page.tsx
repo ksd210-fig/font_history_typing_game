@@ -7,7 +7,7 @@ import AppHeader from "./components/AppHeader";
 import TypingOverlay from "./components/TypingOverlay";
 import ProgressBar from "./components/ProgressBar";
 import StatsModal from "./components/StatsModal";
-import { fontClassMap, fontSizeMap } from "./fonts";
+import { fontClassMap, fontCaseInsensitiveMap, fontSizeMap } from "./fonts";
 import { useTyping } from "./hooks/useTyping";
 import { useInputFocus } from "./hooks/useInputFocus";
 import { playFinishSound } from "./lib/finishSound";
@@ -38,9 +38,10 @@ export default function Home() {
   const { history: originalText, fontKey, name: fontName, designer, year } = Data[selectedDataIndex];
   const currentFontClass = fontKey ? fontClassMap[fontKey] : undefined;
   const currentFontSizeClass = fontKey ? fontSizeMap[fontKey] : undefined;
+  const caseInsensitive = fontKey ? fontCaseInsensitiveMap[fontKey] : false;
 
   const { typedText, progress, cpm, accuracy, complete, durationMs, handleInputChange, resetTyping } =
-    useTyping(originalText);
+    useTyping(originalText, caseInsensitive);
 
   useInputFocus(inputRef, !complete, selectedDataIndex);
 
@@ -68,14 +69,14 @@ export default function Home() {
       if (value.length <= prev.length) return;
 
       for (let i = prev.length; i < value.length; i++) {
-        if (checkChar(value, originalText, i)) {
+        if (checkChar(value, originalText, i, caseInsensitive)) {
           playKeystrokeSound();
         } else {
           playWrongSound();
         }
       }
     },
-    [typedText, originalText, handleInputChange]
+    [typedText, originalText, handleInputChange, caseInsensitive]
   );
 
   const handleSelectFont = () => {
@@ -124,6 +125,7 @@ export default function Home() {
               typedText={typedText}
               fontClass={currentFontClass}
               fontSizeClass={currentFontSizeClass}
+              caseInsensitive={caseInsensitive}
             />
 
             <input

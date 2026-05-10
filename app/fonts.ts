@@ -131,11 +131,11 @@ const notoSans = Noto_Sans({
 const BASE_SIZE = "text-base leading-7 sm:text-lg sm:leading-8 md:text-xl md:leading-9";
 
 // 새 폰트 추가 시 여기에만 등록하면 됩니다
-const fontConfig: Record<FontKey, { className: string; substitute: string; sizeClass: string }> = {
+const fontConfig: Record<FontKey, { className: string; substitute: string; sizeClass: string; caseInsensitive?: boolean }> = {
   inter:            { className: inter.className,           substitute: "Inter",               sizeClass: BASE_SIZE },
   unifraktur:       { className: unifraktur.className,      substitute: "UnifrakturMaguntia",   sizeClass: "text-lg leading-8 sm:text-xl sm:leading-9 md:text-2xl md:leading-9" },
   libreCaslon:      { className: libreCaslon.className,     substitute: "Libre Caslon Text",    sizeClass: BASE_SIZE },
-  cinzel:           { className: cinzel.className,          substitute: "Cinzel",               sizeClass: BASE_SIZE },
+  cinzel:           { className: cinzel.className,          substitute: "Cinzel",               sizeClass: BASE_SIZE, caseInsensitive: true },
   cardo:            { className: cardo.className,           substitute: "Cardo",                sizeClass: BASE_SIZE },
   ebGaramond:       { className: ebGaramond.className,      substitute: "EB Garamond",          sizeClass: BASE_SIZE },
   libreBaskerville: { className: libreBaskerville.className,substitute: "Libre Baskerville",    sizeClass: BASE_SIZE },
@@ -164,4 +164,8 @@ export const fontSubstituteMap = Object.fromEntries(
 export const fontSizeMap = Object.fromEntries(
   Object.entries(fontConfig).map(([k, v]) => [k, v.sizeClass])
 ) as Record<FontKey, string>;
+
+export const fontCaseInsensitiveMap = Object.fromEntries(
+  Object.entries(fontConfig).map(([k, v]) => [k, v.caseInsensitive ?? false])
+) as Record<FontKey, boolean>;
 
