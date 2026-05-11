@@ -166,7 +166,7 @@ export default function Home() {
           <div className="shrink-0 bg-[var(--bg)] pb-4 flex justify-center">
             <button
               onClick={forceComplete}
-              className="px-7 py-3 text-[14px] font-medium bg-[var(--accent)] text-[var(--bg)] rounded-sm hover:opacity-80 transition-opacity"
+              className="px-7 py-3 text-[14px] font-medium bg-[var(--accent)] text-[var(--bg)] hover:opacity-80 transition-opacity"
             >
               Finish &amp; View Results
             </button>

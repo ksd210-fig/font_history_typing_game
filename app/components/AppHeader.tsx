@@ -43,15 +43,13 @@ export default function AppHeader({ isOpen, onOpenChange, onSelectData, selected
             className="flex items-center gap-2 sm:gap-3 px-4 sm:px-8 h-full bg-[var(--accent)] text-[var(--bg)]"
           >
             <span className={`text-xl sm:text-3xl ${fontClassMap[selected.fontKey]}`}>{selected.name}</span>
-            <svg
-              width="12"
-              height="8"
-              viewBox="0 0 12 8"
-              fill="none"
+            <img
+              src="/icon-arrow.svg"
+              alt=""
+              width={13}
+              height={9}
               className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-            >
-              <path d="M1 1L6 7L11 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            />
           </button>
 
           {isOpen && (

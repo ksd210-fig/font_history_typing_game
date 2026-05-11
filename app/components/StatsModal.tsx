@@ -35,7 +35,7 @@ export default function StatsModal({
   return (
     <div className="print-area fixed inset-0 z-50 bg-black/80 overflow-y-auto">
       <div className="min-h-full flex items-center justify-center p-4 sm:p-6">
-      <div className="print-receipt w-full max-w-[640px] p-8 sm:p-12 rounded-xl text-center bg-[var(--bg)] border border-[var(--border-subtle)]">
+      <div className="print-receipt w-full max-w-[640px] p-8 sm:p-12 text-center bg-[var(--bg)] border border-[var(--border-subtle)]">
         <div className="mb-6">
           <div className="print-receipt-title">
             <span className={`text-4xl text-[var(--text-correct)] ${fontClass ?? ""}`}>{fontName}</span>
@@ -66,13 +66,13 @@ export default function StatsModal({
         <div className="mt-4 flex gap-3 justify-center print:hidden">
           <button
             onClick={() => window.print()}
-            className="px-12 py-2 rounded text-sm font-medium bg-transparent text-[var(--text-correct)] border border-[var(--border-subtle)]"
+            className="px-12 py-2 text-sm font-medium bg-transparent text-[var(--text-correct)] border border-[var(--border-subtle)]"
           >
             Print
           </button>
           <button
             onClick={onRestart}
-            className="px-12 py-2 rounded text-sm font-medium bg-[var(--accent)] text-[var(--bg)]"
+            className="px-12 py-2 text-sm font-medium bg-[var(--accent)] text-[var(--bg)]"
           >
             Retry
           </button>
