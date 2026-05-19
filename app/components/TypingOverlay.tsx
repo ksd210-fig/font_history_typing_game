@@ -34,34 +34,56 @@ export default function TypingOverlay({
     return () => vv.removeEventListener("resize", scrollCaret);
   }, []);
 
+  // 단어/공백 단위 세그먼트 분리: 단어는 white-space:nowrap으로 감싸 글자 단위 줄바꿈 방지
+  const segments: { text: string; start: number; isSpace: boolean }[] = [];
+  let si = 0;
+  while (si < originalText.length) {
+    const isSpace = originalText[si] === " " || originalText[si] === "\n";
+    let ei = si;
+    while (ei < originalText.length && (originalText[ei] === " " || originalText[ei] === "\n") === isSpace) {
+      ei++;
+    }
+    segments.push({ text: originalText.slice(si, ei), start: si, isSpace });
+    si = ei;
+  }
+
+  const renderChar = (char: string, index: number) => {
+    if (index < typedText.length) {
+      const typedChar = typedText[index];
+      const correct = checkChar(typedText, originalText, index, caseInsensitive);
+      return (
+        <span
+          key={index}
+          className={correct ? "" : "shake"}
+          style={{ color: correct ? "var(--text-correct)" : "var(--text-incorrect)" }}
+        >
+          {!correct && typedChar === " " ? "_" : typedChar}
+        </span>
+      );
+    }
+    if (index === typedText.length) {
+      return (
+        <Fragment key={index}>
+          <span className="typing-caret" ref={caretRef} />
+          <span style={{ color: "var(--text-not-yet)" }}>{char}</span>
+        </Fragment>
+      );
+    }
+    return <span key={index} style={{ color: "var(--text-not-yet)" }}>{char}</span>;
+  };
+
   return (
     <div className="relative w-full">
-      {/* 단일 레이어: 글자별 색상 제어로 오버레이 정렬 문제 원천 제거 */}
       <p className={`${fontSizeClass} ${fontClass ?? ""}`}>
-        {originalText.split("").map((char, index) => {
-          if (index < typedText.length) {
-            const typedChar = typedText[index];
-            const correct = checkChar(typedText, originalText, index, caseInsensitive);
-            return (
-              <span
-                key={index}
-                className={correct ? "" : "shake"}
-                style={{ color: correct ? "var(--text-correct)" : "var(--text-incorrect)" }}
-              >
-                {!correct && typedChar === " " ? "_" : typedChar}
-              </span>
-            );
-          }
-          if (index === typedText.length) {
-            return (
-              <Fragment key={index}>
-                <span className="typing-caret" ref={caretRef} />
-                <span style={{ color: "var(--text-not-yet)" }}>{char}</span>
-              </Fragment>
-            );
-          }
-          return <span key={index} style={{ color: "var(--text-not-yet)" }}>{char}</span>;
-        })}
+        {segments.map((seg) =>
+          seg.isSpace ? (
+            seg.text.split("").map((char, i) => renderChar(char, seg.start + i))
+          ) : (
+            <span key={seg.start} style={{ whiteSpace: "nowrap" }}>
+              {seg.text.split("").map((char, i) => renderChar(char, seg.start + i))}
+            </span>
+          )
+        )}
         {typedText.length >= originalText.length && (
           <span className="typing-caret" ref={caretRef} />
         )}
