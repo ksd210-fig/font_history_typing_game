@@ -89,8 +89,8 @@ function renderReceipt(data: {
   h += 12              // gap
   h += 2               // separator
   h += 32              // gap
-  h += 72              // font name (large)
-  h += 10              // gap
+  h += 90              // font name (large)
+  h += 16              // gap
   h += 26              // designer · year
   h += 20              // substitute name
   h += 32              // gap
@@ -131,12 +131,12 @@ function renderReceipt(data: {
   // Font name (large, in the actual font)
   ctx.font = `bold 64px "${fontFamily}"`
   ctx.textAlign = 'center'
-  ctx.fillText(data.fontName, PRINT_W / 2, y + 56)
-  y += 72
+  ctx.fillText(data.fontName, PRINT_W / 2, y + 64)
+  y += 90
 
   // Designer · Year
   ctx.font = '20px "Inter"'
-  y += 10
+  y += 16
   const meta = [data.designer, String(data.year)].filter(Boolean).join('  ·  ')
   ctx.fillText(meta, PRINT_W / 2, y)
   y += 28
