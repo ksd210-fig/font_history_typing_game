@@ -94,7 +94,7 @@ function renderReceipt(data: {
   h += 26              // designer · year
   h += 32              // gap
   h += 2               // separator
-  h += 20              // gap
+  h += 32              // gap
   h += sampleLines.length * 28  // sample text lines
   h += 24              // gap
   h += 2               // separator
@@ -143,7 +143,7 @@ function renderReceipt(data: {
   // Separator
   y += 20
   ctx.fillRect(PAD, y, CONTENT_W, 1)
-  y += 20
+  y += 32
 
   // Sample text in the actual font
   ctx.font = `18px "${fontFamily}"`
