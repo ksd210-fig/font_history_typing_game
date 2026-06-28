@@ -92,7 +92,6 @@ function renderReceipt(data: {
   h += 90              // font name (large)
   h += 16              // gap
   h += 26              // designer · year
-  h += 20              // substitute name
   h += 32              // gap
   h += 2               // separator
   h += 20              // gap
@@ -140,13 +139,6 @@ function renderReceipt(data: {
   const meta = [data.designer, String(data.year)].filter(Boolean).join('  ·  ')
   ctx.fillText(meta, PRINT_W / 2, y)
   y += 28
-
-  // Substitute font name (small)
-  ctx.font = '16px "Inter"'
-  ctx.fillStyle = '#555'
-  ctx.fillText(data.substitute, PRINT_W / 2, y)
-  ctx.fillStyle = '#000'
-  y += 24
 
   // Separator
   y += 8
