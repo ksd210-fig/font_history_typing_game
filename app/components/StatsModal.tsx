@@ -65,7 +65,29 @@ export default function StatsModal({
 
         <div className="mt-4 flex gap-3 justify-center print:hidden">
           <button
-            onClick={() => window.print()}
+            onClick={async () => {
+              if (process.env.NEXT_PUBLIC_PRINTER === 'true') {
+                try {
+                  const res = await fetch('/api/print', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      fontName, fontKey, designer, year, sampleText,
+                      cpm, accuracy, durationMs,
+                      substitute: fontSubstituteMap[fontKey],
+                    }),
+                  })
+                  if (!res.ok) {
+                    const { error } = await res.json()
+                    alert(`프린트 실패: ${error}`)
+                  }
+                } catch (e) {
+                  alert(`프린트 실패: ${e}`)
+                }
+              } else {
+                window.print()
+              }
+            }}
             className="px-12 py-2 text-sm font-medium bg-transparent text-[var(--text-correct)] border border-[var(--border-subtle)]"
           >
             Print
