@@ -141,7 +141,7 @@ function renderReceipt(data: {
   y += 28
 
   // Separator
-  y += 20
+  y += 8
   ctx.fillRect(PAD, y, CONTENT_W, 1)
   y += 32
 
